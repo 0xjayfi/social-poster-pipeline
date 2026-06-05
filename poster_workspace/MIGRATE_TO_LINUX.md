@@ -71,28 +71,29 @@ If the apt repo route fails on this distro/arch, fall back to the direct binary 
 
 ## 2. Get the code onto the server (git clone)
 
-The user will provide a git remote for the `x-poster-workspace` repo (the parent of
-`poster_workspace/`).
+Repo: **https://github.com/0xjayfi/social-poster-pipeline.git** (default branch `main`).
+This repo is the `x-poster-workspace` folder; the pipeline lives under `poster_workspace/`.
+`tools/.env` is gitignored (only `tools/.env.example` is tracked) — so the clone has NO secret
+and you must create `.env` in §3.
 
-**⏸ USER — ask for:**
-- The git clone URL (and a deploy token / SSH key if the repo is private).
-- The directory to clone into (default suggestion: `/opt/poster-tools` or `~/poster-tools`).
+**⏸ USER — confirm/ask for:**
+- Whether the repo is public (clone works as-is) or private (need a deploy key / token).
+- The directory to clone into (default: `~/poster-tools`).
 
 ```bash
-# example; substitute the real remote + path
-git clone <REMOTE_URL> ~/poster-tools
+git clone https://github.com/0xjayfi/social-poster-pipeline.git ~/poster-tools
 cd ~/poster-tools
 # the server lives at: poster_workspace/tools/poster_tools_server.py
 ```
 
-> ⚠️ **Secrets must not be in git.** `poster_workspace/tools/.env` on the Mac contains a live
-> EasyRouter key. Before/after cloning, ensure `.env` is gitignored and NOT present in the repo
-> history. If the repo was created from the Mac folder, verify:
+> ⚠️ **Verify no secret came down with the clone** (it shouldn't — `.env` is gitignored — but
+> confirm before doing anything else):
 > ```bash
-> git -C ~/poster-tools log --all --full-history -- '*/tools/.env'   # must print nothing
-> grep -R "tools/.env" ~/poster-tools/.gitignore || echo "ADD tools/.env TO .gitignore"
+> test -f ~/poster-tools/poster_workspace/tools/.env && echo "UNEXPECTED: .env present in clone — STOP, tell user" || echo "OK: no .env in clone"
+> grep -q "^\.env" ~/poster-tools/.gitignore && echo "OK: .env is gitignored" || echo "WARN: add .env to .gitignore"
 > ```
-> If `.env` was ever committed, tell the user — the key is compromised and must be rotated.
+> If a real `.env` ever appears in the repo or its history, tell the user immediately — the key
+> is compromised and must be rotated.
 
 ---
 
