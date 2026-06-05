@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# SECRETS — never commit. The EasyRouter API key lives in tools/.env.
+# ─────────────────────────────────────────────────────────────────────────────
+.env
+*.env
+!.env.example
+**/.env
+**/*.env
+!**/.env.example
+*.key
+*.pem
+*.p12
+secrets/
+.secrets/
+credentials.json
+.cloudflared/            # named-tunnel credentials (UUID.json), cert.pem, etc.
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Python / uv
+# ─────────────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.uv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Generated pipeline artifacts (regenerable; keep the repo lean).
+# The .gitkeep files below are tracked so the empty dirs survive a clone.
+# ─────────────────────────────────────────────────────────────────────────────
+poster_workspace/intermediate/*
+!poster_workspace/intermediate/.gitkeep
+poster_workspace/outputs/*
+!poster_workspace/outputs/.gitkeep
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OS / editor cruft
+# ─────────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
